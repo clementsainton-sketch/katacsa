@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule  } from "@angular/forms";
-import { Category }  from '../app.component';
-import { NgFor } from  '@angular/common';
+import { Component, inject } from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
+import { NgFor } from '@angular/common';
+import { ExpenseService } from '../service/personalexpense.service';
+import { PersonalExpense, Category } from '../service/personalexpense.interface';
 
 @Component({
   selector: 'app-add-expense-form',
-  imports: [ ReactiveFormsModule, NgFor ],
+  imports: [ReactiveFormsModule, NgFor],
   templateUrl: './add-expense-form.component.html',
   styleUrl: './add-expense-form.component.css'
 })
@@ -18,17 +19,18 @@ export class AddExpenseFormComponent {
     description: new FormControl(""),
   });
 
+  private expenseService = inject(ExpenseService);
   public categories = Object.values(Category);
 
-  
-  
-
-
   onSubmit() {
-      console.log(this.categories);
-    // if (expense.name && expense.email) {
-    //   // Envoi du formulaire
-    //   console.log(this.user);
-    // }
+    const expense: PersonalExpense = {
+      amount: this.form.value.amount,
+      category: this.form.value.category,
+      date: this.form.value.date,
+      description: this.form.value.description
+    }
+
+    this.expenseService.addExpense(expense);
+    this.expenseService.refreshList();
   }
 }

@@ -23,9 +23,9 @@ public class PersonalExpensesController {
     @ResponseStatus
     public ResponseEntity<?> addExpense(@RequestHeader double amount,
                                         @RequestHeader Category category,
-                                        @RequestHeader @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date,
+                                        @RequestHeader @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date expenseDate,
                                         @RequestHeader String description) {
-        personalExpensesService.addExpense(new PersonalExpense(amount, category, date, description));
+        personalExpensesService.addExpense(new PersonalExpense(amount, category, expenseDate, description));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
