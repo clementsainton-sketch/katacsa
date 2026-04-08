@@ -1,0 +1,13 @@
+main {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: inherit;
+  position: relative;
+  font-family: Arial, sans-serif;
+  display: flex;
+  margin: 0;
+}

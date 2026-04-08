@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <!-- Create table headers dynamically based on columns input -->
+      <th *ngFor="let expense of expenses">{{ expense.amount}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Create table rows dynamically based on data input -->
+    <tr *ngFor="let row of data">
+      <td *ngFor="let column of columns">
+        {{ row[column.key] }}
+      </td>
+    </tr>
+  </tbody>
+</table>
