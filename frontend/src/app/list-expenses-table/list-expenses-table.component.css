@@ -2,3 +2,34 @@
     width:90%;
     background-color: blue;
 }
+
+.expense-form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 100%;
+}
+
+.expense-form label {
+  font-weight: bold;
+  color: #2f3640;
+}
+
+.expense-form input,
+.expense-form textarea {
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  border: 1px solid #dcdde1;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.expense-form button:hover {
+  background-color: rgb(92, 153, 158);
+}
+
+table {
+    align-self: center;
+}

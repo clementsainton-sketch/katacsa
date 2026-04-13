@@ -12,14 +12,15 @@ export class ExpenseService {
   private expenses = signal<PersonalExpense[]>([])
 
   getExpenses(category: string, begin: Date, end: Date): Observable<PersonalExpense[]> {
-    var params = new HttpParams();
-    params.append('category', category);
-    if(begin != null)
-      params.append('beginning', begin.toLocaleDateString());
-    if(end != null)
-      params.append('end', end.toLocaleDateString());
+    var categoryAsString = category != null ? category : "";
+    var beginAsString = begin != null ? begin.toString() + "" : "";
+    var endAsString = end != null ? end.toString() + "" : "";
+    var params = new HttpParams()
+      .set('category', categoryAsString)
+      .set('beginning', beginAsString)
+      .set('end', endAsString);
 
-    return this.http.get<PersonalExpense[]>('/personalexpenses/list', { params }).pipe(tap(expenses => this.expenses.set(expenses)));
+    return this.http.get<PersonalExpense[]>('/personalexpenses/list', { params }).pipe(tap(expenses =>this.expenses.set(expenses)));
   }
 
   addExpense(expense: PersonalExpense): void {
@@ -30,6 +31,11 @@ export class ExpenseService {
       'expensedate': expense.date.toLocaleString()
     };
     this.http.post<PersonalExpense>('/personalexpenses/add', "", { headers }).subscribe();
+  }
+
+  getSum(category: string): Observable<number>{
+    var params = new HttpParams().set('category', category);
+    return this.http.get<number>('/personalexpenses/sum', { params }).pipe();
   }
 
   private subject = new Subject<any>();

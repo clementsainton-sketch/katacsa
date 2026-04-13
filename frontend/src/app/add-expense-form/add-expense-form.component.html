@@ -1,3 +1,4 @@
+<ng-toast></ng-toast>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="expense-form">
   <label>
     Amount:
@@ -8,14 +9,15 @@
     <input type="date" formControlName="date">
   </label>
   <label>
-    Description:
-    <input type="text" formControlName="description">
-  </label>
-    <label>
     Category:
     <select class="form-control" formControlName="category">
       <option *ngFor="let category of categories">{{category}}</option>
     </select>
+  </label>
+  <br>
+  <label>
+    Description:
+    <input type="text" formControlName="description">
   </label>
   <br>
   <button type="submit">Add expense</button>
