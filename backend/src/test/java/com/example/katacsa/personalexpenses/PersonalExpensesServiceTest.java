@@ -23,15 +23,15 @@ class PersonalExpensesServiceTest {
 
     @Test
     void addExpense() {
-        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.FIXED, testDate, "expense1"));
-        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2"));
+        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.Fixed, testDate, "expense1"));
+        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.Flexible, testDate, "expense2"));
         Assertions.assertThat(PersonalExpensesService.IN_MEMORY_EXPENSES).hasSize(2);
     }
 
     @Test
     void listExpenses() {
-        PersonalExpense expense1 = new PersonalExpense(10.01, Category.FIXED, testDate, "expense1");
-        PersonalExpense expense2 = new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2");
+        PersonalExpense expense1 = new PersonalExpense(10.01, Category.Fixed, testDate, "expense1");
+        PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
         Assertions.assertThat(personalExpensesService.listExpenses(null, null, null)).contains(expense1, expense2);
@@ -39,18 +39,18 @@ class PersonalExpensesServiceTest {
 
     @Test
     void listExpenses_byCategory() {
-        PersonalExpense expense1 = new PersonalExpense(10.01, Category.FIXED, testDate, "expense1");
-        PersonalExpense expense2 = new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2");
+        PersonalExpense expense1 = new PersonalExpense(10.01, Category.Fixed, testDate, "expense1");
+        PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
-        Assertions.assertThat(personalExpensesService.listExpenses(Category.FIXED, null, null)).containsExactly(expense1);
+        Assertions.assertThat(personalExpensesService.listExpenses(Category.Fixed, null, null)).containsExactly(expense1);
     }
 
     @Test
     void listExpenses_byBegin() {
         Date yesterday = Date.from(testDate.toInstant().minus(1, ChronoUnit.DAYS));
-        PersonalExpense expense1 = new PersonalExpense(10.01, Category.FIXED, yesterday, "expense1");
-        PersonalExpense expense2 = new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2");
+        PersonalExpense expense1 = new PersonalExpense(10.01, Category.Fixed, yesterday, "expense1");
+        PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
         Assertions.assertThat(personalExpensesService.listExpenses(null, yesterday, null)).containsExactly(expense2);
@@ -59,8 +59,8 @@ class PersonalExpensesServiceTest {
     @Test
     void listExpenses_byEnd() {
         Date yesterday = Date.from(testDate.toInstant().minus(1, ChronoUnit.DAYS));
-        PersonalExpense expense1 = new PersonalExpense(10.01, Category.FIXED, yesterday, "expense1");
-        PersonalExpense expense2 = new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2");
+        PersonalExpense expense1 = new PersonalExpense(10.01, Category.Fixed, yesterday, "expense1");
+        PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
         Assertions.assertThat(personalExpensesService.listExpenses(null, null, testDate)).containsExactly(expense1);
@@ -70,9 +70,9 @@ class PersonalExpensesServiceTest {
     void listExpenses_byPeriod() {
         Date yesterday = Date.from(testDate.toInstant().minus(1, ChronoUnit.DAYS));
         Date tomorrow = Date.from(testDate.toInstant().plus(1, ChronoUnit.DAYS));
-        PersonalExpense expense1 = new PersonalExpense(10.01, Category.FIXED, yesterday, "expense1");
-        PersonalExpense expense2 = new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2");
-        PersonalExpense expense3 = new PersonalExpense(10.01, Category.FLEXIBLE, tomorrow, "expense3");
+        PersonalExpense expense1 = new PersonalExpense(10.01, Category.Fixed, yesterday, "expense1");
+        PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
+        PersonalExpense expense3 = new PersonalExpense(10.01, Category.Flexible, tomorrow, "expense3");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
         personalExpensesService.addExpense(expense3);
@@ -81,8 +81,8 @@ class PersonalExpensesServiceTest {
 
     @Test
     void sumExpenses() {
-        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.FIXED, testDate, "expense1"));
-        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.FLEXIBLE, testDate, "expense2"));
+        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.Fixed, testDate, "expense1"));
+        personalExpensesService.addExpense(new PersonalExpense(10.01, Category.Flexible, testDate, "expense2"));
         Assertions.assertThat(PersonalExpensesService.IN_MEMORY_EXPENSES.stream().mapToDouble(PersonalExpense::amount).sum()).isEqualTo(20.02d);
     }
 }

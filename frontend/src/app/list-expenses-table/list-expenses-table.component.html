@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="expense-form">
+  <label>
+    From:
+    <input type="date" formControlName="begin">
+  </label>
+  <label>
+    To:
+    <input type="date" formControlName="end">
+  </label>
+  <label>
+    Category:
+    <select class="form-control" formControlName="category">
+      <option *ngFor="let category of categories" selected="">{{category}}</option>
+    </select>
+  </label>
+  <button type="submit">Filter</button>
+</form>
+<h2>{{categorySum}}</h2>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="sortData($event)">
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+    <td mat-cell *matCellDef="let expense"> {{expense.amount}} </td>
+  </ng-container>
+  <ng-container matColumnDef="category">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+    <td mat-cell *matCellDef="let expense"> {{expense.category}} </td>
+  </ng-container>
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+    <td mat-cell *matCellDef="let expense" mat-fo> {{expense.date | date:'dd/MM/yyyy'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+    <td mat-cell *matCellDef="let expense"> {{expense.description}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
