@@ -26,16 +26,16 @@ class PersonalExpensesControllerTest {
         restTestClient.post()
                 .uri("/personalexpenses/add")
                 .header("amount", "10")
-                .header("category", "OCCASIONAL")
-                .header("date", "2026-04-05")
+                .header("category", "Occasional")
+                .header("expenseDate", "2026-04-05")
                 .header("description", "getting money")
                 .exchange()
                 .expectStatus().isCreated();
 
         restTestClient.post()
                 .uri("/personalexpenses/add")
-                .header("category", "FIXED")
-                .header("date", "2026-04-06")
+                .header("category", "Fixed")
+                .header("expenseDate", "2026-04-06")
                 .header("description", "rent")
                 .exchange()
                 .expectStatus().isBadRequest();
@@ -62,7 +62,7 @@ class PersonalExpensesControllerTest {
     @Test
     void sumExpenses() {
         restTestClient.get()
-                .uri("/personalexpenses/sum?category=FIXED")
+                .uri("/personalexpenses/sum?category=Fixed")
                 .exchange()
                 .expectStatus().isOk();
 

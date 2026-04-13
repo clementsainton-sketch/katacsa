@@ -32,16 +32,16 @@ class KataCsaApplicationTests_personalExpenses {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("amount", "10");
-        headers.add("category", "OCCASIONAL");
-        headers.add("date", "2026-04-05");
+        headers.add("category", "Occasional");
+        headers.add("expenseDate", "2026-04-05");
         headers.add("description", "getting money");
         response = testRestTemplate.postForEntity(url + "/personalexpenses/add",
                         new HttpEntity<>(null, headers), String.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
         headers.set("amount", "850");
-        headers.set("category", "FIXED");
-        headers.set("date", "2026-04-07");
+        headers.set("category", "Fixed");
+        headers.set("expenseDate", "2026-04-07");
         headers.set("description", "rent");
         response = testRestTemplate.postForEntity(url + "/personalexpenses/add",
                 new HttpEntity<>(null, headers), String.class);
@@ -49,11 +49,11 @@ class KataCsaApplicationTests_personalExpenses {
 
         response = testRestTemplate.getForEntity(url + "/personalexpenses/list", String.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Assertions.assertThat(response.getBody()).isEqualTo("[{\"amount\":10.0,\"category\":\"OCCASIONAL\"," +
+        Assertions.assertThat(response.getBody()).isEqualTo("[{\"amount\":10.0,\"category\":\"Occasional\"," +
                 "\"date\":\"2026-04-05T00:00:00.000Z\",\"description\":\"getting money\"},{\"amount\":850.0," +
-                "\"category\":\"FIXED\",\"date\":\"2026-04-07T00:00:00.000Z\",\"description\":\"rent\"}]");
+                "\"category\":\"Fixed\",\"date\":\"2026-04-07T00:00:00.000Z\",\"description\":\"rent\"}]");
 
-        response = testRestTemplate.getForEntity(url + "/personalexpenses/sum?category=FIXED", String.class);
+        response = testRestTemplate.getForEntity(url + "/personalexpenses/sum?category=Fixed", String.class);
         Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(response.getBody()).isEqualTo("850.0");
 

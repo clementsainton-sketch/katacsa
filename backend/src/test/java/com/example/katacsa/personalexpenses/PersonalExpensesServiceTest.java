@@ -53,7 +53,7 @@ class PersonalExpensesServiceTest {
         PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
-        Assertions.assertThat(personalExpensesService.listExpenses(null, yesterday, null)).containsExactly(expense2);
+        Assertions.assertThat(personalExpensesService.listExpenses(null, testDate, null)).containsExactly(expense2);
     }
 
     @Test
@@ -63,7 +63,7 @@ class PersonalExpensesServiceTest {
         PersonalExpense expense2 = new PersonalExpense(10.01, Category.Flexible, testDate, "expense2");
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
-        Assertions.assertThat(personalExpensesService.listExpenses(null, null, testDate)).containsExactly(expense1);
+        Assertions.assertThat(personalExpensesService.listExpenses(null, null, yesterday)).containsExactly(expense1);
     }
 
     @Test
@@ -76,7 +76,7 @@ class PersonalExpensesServiceTest {
         personalExpensesService.addExpense(expense1);
         personalExpensesService.addExpense(expense2);
         personalExpensesService.addExpense(expense3);
-        Assertions.assertThat(personalExpensesService.listExpenses(null, yesterday, tomorrow)).containsExactly(expense2);
+        Assertions.assertThat(personalExpensesService.listExpenses(null, testDate, testDate)).containsExactly(expense2);
     }
 
     @Test

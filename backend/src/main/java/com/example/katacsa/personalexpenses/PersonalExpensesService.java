@@ -24,11 +24,11 @@ public class PersonalExpensesService {
         }
 
         if (beginning != null) {
-            expensesFiltered = expensesFiltered.stream().filter(expense -> expense.date().after(beginning)).toList();
+            expensesFiltered = expensesFiltered.stream().filter(expense -> expense.date().equals(beginning) || expense.date().after(beginning)).toList();
         }
 
         if (end != null) {
-            expensesFiltered = expensesFiltered.stream().filter(expense -> expense.date().before(end)).toList();
+            expensesFiltered = expensesFiltered.stream().filter(expense -> expense.date().equals(end) ||expense.date().before(end)).toList();
         }
 
         return expensesFiltered;
