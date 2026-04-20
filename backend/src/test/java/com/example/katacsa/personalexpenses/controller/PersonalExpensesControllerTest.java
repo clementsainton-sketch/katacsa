@@ -1,14 +1,20 @@
-package com.example.katacsa.personalexpenses;
+package com.example.katacsa.personalexpenses.controller;
 
+import com.example.katacsa.personalexpenses.dto.PersonalExpenseDTO;
+import com.example.katacsa.personalexpenses.model.Category;
 import com.example.katacsa.personalexpenses.model.PersonalExpense;
+import com.example.katacsa.personalexpenses.service.PersonalExpensesService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.client.RestTestClient;
+
+import java.util.Date;
 
 
 @WebMvcTest(PersonalExpensesController.class)
@@ -23,20 +29,17 @@ class PersonalExpensesControllerTest {
 
     @Test
     void addExpense() {
+        PersonalExpenseDTO personalExpenseDTO = new PersonalExpenseDTO(10, Category.Occasional, new Date(), "getting mondey");
         restTestClient.post()
                 .uri("/personalexpenses/add")
-                .header("amount", "10")
-                .header("category", "Occasional")
-                .header("expenseDate", "2026-04-05")
-                .header("description", "getting money")
+                .body(personalExpenseDTO)
                 .exchange()
                 .expectStatus().isCreated();
 
+        personalExpenseDTO = new PersonalExpenseDTO(-10, Category.Occasional, new Date(), "getting mondey");
         restTestClient.post()
                 .uri("/personalexpenses/add")
-                .header("category", "Fixed")
-                .header("expenseDate", "2026-04-06")
-                .header("description", "rent")
+                .body(personalExpenseDTO)
                 .exchange()
                 .expectStatus().isBadRequest();
 
