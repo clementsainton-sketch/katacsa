@@ -9,7 +9,6 @@ import { PersonalExpense } from '../dto/personalexpense.interface';
 })
 export class ExpenseService {
   private http = inject(HttpClient);
-  private expenses = signal<PersonalExpense[]>([])
 
   getExpenses(category: string, begin: Date, end: Date): Observable<PersonalExpense[]> {
     var categoryAsString = category != null ? category : "";
@@ -20,7 +19,7 @@ export class ExpenseService {
       .set('beginning', beginAsString)
       .set('end', endAsString);
 
-    return this.http.get<PersonalExpense[]>('/personalexpenses/list', { params }).pipe(tap(expenses =>this.expenses.set(expenses)));
+    return this.http.get<PersonalExpense[]>('/personalexpenses/list', { params });
   }
 
   addExpense(expense: PersonalExpense): Observable<PersonalExpense> {
@@ -36,16 +35,5 @@ export class ExpenseService {
   getSum(category: string): Observable<number>{
     var params = new HttpParams().set('category', category);
     return this.http.get<number>('/personalexpenses/sum', { params }).pipe();
-  }
-
-  private subject = new Subject<any>();
-
-
-  getClickEvent(): Observable<any> {
-    return this.subject.asObservable();
-  }
-
-  refreshList(): void {
-    this.subject.next("");
   }
 }

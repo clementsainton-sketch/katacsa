@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgFor } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http'
 
 import { ExpenseService } from '../service/personalexpense.service';
+import { ExpenseEvent } from '../event/personalexpense.event';
 import { PersonalExpense, Category } from '../dto/personalexpense.interface';
 import { NgToastComponent, NgToastService } from 'ng-angular-popup';
-import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-add-expense-form',
@@ -24,6 +23,7 @@ export class AddExpenseFormComponent {
   });
 
   private expenseService = inject(ExpenseService);
+  private expenseEvent = inject(ExpenseEvent);
   public categories = Object.values(Category);
   constructor(private toast: NgToastService) { }
 
@@ -43,7 +43,7 @@ export class AddExpenseFormComponent {
     } else {
       this.expenseService.addExpense(expense).subscribe({
         next: data => {
-          this.expenseService.refreshList()
+          this.expenseEvent.refreshList();
           this.toast.info('Expanse added');
         },
         error: exception => {

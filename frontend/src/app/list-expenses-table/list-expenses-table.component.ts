@@ -1,5 +1,6 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { ExpenseService } from '../service/personalexpense.service';
+import { ExpenseEvent } from '../event/personalexpense.event';
 import { PersonalExpense, Category } from '../dto/personalexpense.interface';
 import { Subscription } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
@@ -9,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgFor, DatePipe } from '@angular/common';
 import { MatSortModule, Sort } from '@angular/material/sort';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-list-expenses-table',
@@ -20,6 +21,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 export class ListExpensesTableComponent {
   categorySum = ""
   private expenseService = inject(ExpenseService);
+  private expenseEvent = inject(ExpenseEvent);
   categories = Object.values(Category).map(cat => cat + "").concat("");
   private subscription!: Subscription;
   displayedColumns: string[] = ['amount', 'category', 'date', 'description'];
@@ -43,7 +45,7 @@ export class ListExpensesTableComponent {
     }
   }
 
-  clickEventsubscription = this.expenseService.getClickEvent().subscribe(() => {
+  clickEventsubscription = this.expenseEvent.getClickEvent().subscribe(() => {
     this.refresh();
   })
 
@@ -68,6 +70,7 @@ export class ListExpensesTableComponent {
       this.dataSource.data = expenses;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.expenseEvent.refreshList();
     });
   }
 
