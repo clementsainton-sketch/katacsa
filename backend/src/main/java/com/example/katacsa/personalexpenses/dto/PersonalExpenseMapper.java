@@ -12,12 +12,12 @@ public class PersonalExpenseMapper {
         if(personalExpenseDTO.amount() < 0){
             throw new WrongAmountException();
         }
-        if(personalExpenseDTO.expenseDate().after(Date.from(Instant.now()))){
+        if(personalExpenseDTO.expensedate().after(Date.from(Instant.now()))){
             throw new FutureDateException();
         }
         return new PersonalExpense(personalExpenseDTO.amount(),
                 personalExpenseDTO.category(),
-                personalExpenseDTO.expenseDate(),
+                personalExpenseDTO.expensedate(),
                 personalExpenseDTO.description());
     }
 }

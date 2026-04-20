@@ -1,6 +1,6 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { ExpenseService } from '../service/personalexpense.service';
-import { PersonalExpense, Category } from '../service/personalexpense.interface';
+import { PersonalExpense, Category } from '../dto/personalexpense.interface';
 import { Subscription } from 'rxjs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';

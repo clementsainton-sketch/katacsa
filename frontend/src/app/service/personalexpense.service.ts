@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap, Subject } from 'rxjs';
-import { PersonalExpense } from './personalexpense.interface';
+import { PersonalExpense } from '../dto/personalexpense.interface';
 
 
 @Injectable({
@@ -23,14 +23,14 @@ export class ExpenseService {
     return this.http.get<PersonalExpense[]>('/personalexpenses/list', { params }).pipe(tap(expenses =>this.expenses.set(expenses)));
   }
 
-  addExpense(expense: PersonalExpense): void {
-    const headers = {
+  addExpense(expense: PersonalExpense): Observable<PersonalExpense> {
+    let body = {
       'amount': expense.amount.toString(),
       'category': expense.category.toString(),
       'description': expense.description,
-      'expensedate': expense.date.toLocaleString()
+      'expensedate': expense.date.toISOString()
     };
-    this.http.post<PersonalExpense>('/personalexpenses/add', "", { headers }).subscribe();
+    return this.http.post<PersonalExpense>('/personalexpenses/add', body);
   }
 
   getSum(category: string): Observable<number>{

@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
 import { NgFor } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http'
 
 import { ExpenseService } from '../service/personalexpense.service';
-import { PersonalExpense, Category } from '../service/personalexpense.interface';
+import { PersonalExpense, Category } from '../dto/personalexpense.interface';
 import { NgToastComponent, NgToastService } from 'ng-angular-popup';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-add-expense-form',
@@ -29,7 +31,7 @@ export class AddExpenseFormComponent {
     const expense: PersonalExpense = {
       amount: this.form.value.amount,
       category: this.form.value.category,
-      date: this.form.value.date,
+      date: new Date(this.form.value.date),
       description: this.form.value.description
     }
 
@@ -39,9 +41,16 @@ export class AddExpenseFormComponent {
     } else if (this.form.value.date == null || this.form.value.date == "") {
       this.toast.danger('You need to set a date');
     } else {
-      this.expenseService.addExpense(expense);
-      this.toast.setBeforeRemoveCallback(() => this.expenseService.refreshList());
-      this.toast.info('Expanse added');
+      this.expenseService.addExpense(expense).subscribe({
+        next: data => {
+          this.expenseService.refreshList()
+          this.toast.info('Expanse added');
+        },
+        error: exception => {
+          let errorMessage = exception.error.message == undefined ? exception.error : exception.error.message;
+          this.toast.danger(errorMessage);
+        }
+      });
     }
   }
 }
